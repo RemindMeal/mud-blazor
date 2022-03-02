@@ -1,0 +1,28 @@
+﻿<Properties StartupConfiguration="{711A049A-DAD4-46FA-ADA2-4E5832982399}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Data/MudBlazorTestContext.cs">
+    <Files>
+      <File FileName="Pages/_Layout.cshtml" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="31" Column="11" />
+      <File FileName="Data/MudBlazorTestContext.cs" Line="9" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MudBlazorTest" expanded="True">
+            <Node name="MudBlazorTest" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.MudBlazorTest PreferredExecutionTarget="/Applications/Firefox.app" />
+  <MultiItemStartupConfigurations />
+</Properties>
