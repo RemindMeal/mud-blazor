@@ -1,0 +1,37 @@
+<SearchBar @bind-SearchString="SearchString"/>
+
+<Grid @ref="grid" TModel=Recipe FilterFunc=FilterFunc>
+    <ItemTemplate Context=recipe>
+        <RecipeCard recipe=recipe Refresh=Refresh/>
+    </ItemTemplate>
+</Grid>
+
+@code
+{
+    private string searchString;
+    private Grid<Recipe> grid;
+
+    private string SearchString {
+        get => searchString;
+        set {
+            searchString = value;
+            Task.Run(async () => await grid.Refresh());
+        }
+    }
+
+    public async Task Refresh()
+    {
+        await grid.Refresh();
+    }
+
+    private bool FilterFunc(Recipe recipe)
+    {
+        if (string.IsNullOrWhiteSpace(SearchString))
+            return true;
+        if (recipe.Name.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (recipe.Description.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

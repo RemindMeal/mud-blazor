@@ -1,0 +1,36 @@
+<SearchBar @bind-SearchString="SearchString"/>
+
+<Grid TModel=Friend @ref="grid" FilterFunc=FilterFunc>
+    <ItemTemplate Context=friend>
+        <FriendCard Friend=friend Refresh=Refresh/>
+    </ItemTemplate>
+</Grid>
+
+@code
+{
+    private string searchString;
+    private Grid<Friend> grid;
+
+    private string SearchString {
+        get => searchString;
+        set {
+            searchString = value;
+            Task.Run(async () => await grid.Refresh());
+        }
+    }
+
+    public async Task Refresh()
+    {
+        await grid.Refresh();
+    }
+
+    private bool FilterFunc(Friend friend)
+    {
+        if (string.IsNullOrWhiteSpace(SearchString))
+            return true;
+        if (friend.Name.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
+            || friend.Surname.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

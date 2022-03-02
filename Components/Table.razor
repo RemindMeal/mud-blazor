@@ -1,0 +1,51 @@
+@typeparam TModel
+@inject IAsyncRepository<TModel> Repository
+
+<MudTable Items=Models Hover=true Loading=!loaded Border=true Filter=FilterFunc Class="ma-5">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">
+            Recipes List
+        </MudText>
+        <MudSpacer />
+        <MudTextField
+            @bind-Value="searchString"
+            Placeholder="Search"
+            Adornment="Adornment.Start"
+            AdornmentIcon="@Icons.Material.Filled.Search"
+            IconSize="Size.Medium"
+            Class="mt-0">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        @HeaderContent
+    </HeaderContent>
+    <RowTemplate Context="model">
+        @RowTemplate(model)
+    </RowTemplate>
+</MudTable>
+
+
+@code
+{
+    private bool loaded = false;
+
+    private List<TModel> Models = new List<TModel>();
+
+    private string searchString = "";
+
+    [Parameter]
+    public Func<TModel, bool> FilterFunc { get; set; }
+
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> RowTemplate { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Models.AddRange(await Repository.GetListAsync());
+        StateHasChanged();
+        loaded = true;
+    }
+}

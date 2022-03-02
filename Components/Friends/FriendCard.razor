@@ -1,0 +1,15 @@
+<Card Model=Friend Refresh=Refresh>
+    <Header>
+        <MudText Typo="Typo.h6">@context.Name @context.Surname</MudText>
+    </Header>
+    <Content>
+    </Content>
+</Card>
+
+@code {
+    [Parameter]
+    public Friend Friend { get; set; }
+
+    [Parameter]
+    public EventCallback Refresh { get; set; }
+}

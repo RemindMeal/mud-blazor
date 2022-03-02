@@ -1,0 +1,17 @@
+@page "/recipes"
+
+<AddButton TAddDialog=RecipeAddDialog Title="Nouvelle recette" OnClose=StateHasChanged/>
+
+@* <RecipeTable /> *@
+
+<RecipeGrid @ref="recipeGrid"/>
+
+@code
+{
+    private RecipeGrid recipeGrid;
+
+    private async Task Refresh()
+    {
+        await recipeGrid.Refresh();
+    }
+}

@@ -1,0 +1,42 @@
+@typeparam TModel
+@inject IAsyncRepository<TModel> Repository
+@inject IJSRuntime JSRuntime
+
+<MudGrid Class="ma-5">
+    @if(filteredModels != null)
+    {
+        @foreach (var model in filteredModels)
+        {
+            <MudItem>
+                @ItemTemplate(model)
+            </MudItem>
+        }
+    }
+</MudGrid>
+
+@code
+{
+    private List<TModel> models;
+    private List<TModel> filteredModels;
+
+    [Parameter]
+    public RenderFragment<TModel> ItemTemplate { get; set; }
+
+    [Parameter]
+    public Func<TModel, bool> FilterFunc { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        models = await Repository.GetListAsync();
+        filteredModels = models.Where(FilterFunc).ToList();
+    }
+
+    public async Task Refresh()
+    {
+        models.Clear();
+        models.AddRange(await Repository.GetListAsync());
+        filteredModels = models.Where(FilterFunc).ToList();
+        await InvokeAsync(() => StateHasChanged());
+    }
+}

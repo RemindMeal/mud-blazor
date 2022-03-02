@@ -1,0 +1,50 @@
+@typeparam TModel
+
+@inject IDialogService DialogService
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            @Header(Model)
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudText></MudText>
+        @Content(Model)
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
+        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Default" @onclick="OpenDeleteDialog"/>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public TModel Model { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> Header { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> Content { get; set; }
+
+    [Parameter]
+    public EventCallback Refresh { get; set; }
+
+    private async Task OpenDeleteDialog()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("Model", Model);
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var dialog = DialogService.Show<DeleteDialog<TModel>>("Supprimer", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await Refresh.InvokeAsync();
+        }
+    }
+}

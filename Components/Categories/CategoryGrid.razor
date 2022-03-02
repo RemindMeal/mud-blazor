@@ -1,0 +1,35 @@
+<SearchBar @bind-SearchString="SearchString"/>
+
+<Grid TModel=Category @ref="grid" FilterFunc=FilterFunc>
+    <ItemTemplate Context=category>
+        <CategoryCard category=category Refresh=Refresh/>
+    </ItemTemplate>
+</Grid>
+
+@code
+{
+    private string searchString;
+    private Grid<Category> grid;
+
+    private string SearchString {
+        get => searchString;
+        set {
+            searchString = value;
+            Task.Run(async () => await grid.Refresh());
+        }
+    }
+
+    public async Task Refresh()
+    {
+        await grid.Refresh();
+    }
+
+    private bool FilterFunc(Category category)
+    {
+        if (string.IsNullOrWhiteSpace(SearchString))
+            return true;
+        if (category.Name.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

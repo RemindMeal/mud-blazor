@@ -1,0 +1,15 @@
+@page "/categories"
+
+<AddButton TAddDialog=CategoryAddDialog Title="Nouvelle catégorie" OnClose="Refresh" />
+
+<CategoryGrid @ref="categoryGrid"/>
+
+@code
+{
+    private CategoryGrid categoryGrid;
+
+    private async Task Refresh()
+    {
+        await categoryGrid.Refresh();
+    }
+}

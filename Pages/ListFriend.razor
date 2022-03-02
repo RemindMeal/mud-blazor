@@ -1,0 +1,15 @@
+@page "/friends"
+
+<AddButton TAddDialog=FriendAddDialog Title="Nouvelle invité" OnClose="Refresh" />
+
+<FriendGrid @ref="friendGrid"/>
+
+@code
+{
+    private FriendGrid friendGrid;
+
+    private async Task Refresh()
+    {
+        await friendGrid.Refresh();
+    }
+}

@@ -1,0 +1,15 @@
+<Card Model=category Refresh=Refresh>
+    <Header>
+        <MudText Typo="Typo.h6">@category.Name</MudText>
+    </Header>
+    <Content>
+    </Content>
+</Card>
+
+@code {
+    [Parameter]
+    public Category category { get; set; }
+
+    [Parameter]
+    public EventCallback Refresh { get; set; }
+}

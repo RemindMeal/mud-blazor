@@ -1,0 +1,40 @@
+@inject IAsyncRepository<Category> CategoryRepository
+
+<AddDialog TModel=Recipe Model=recipe>
+    <Fields Context=recipe>
+        <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
+        <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />
+        <MudAutocomplete
+            T=Category
+            Label="Category"
+            @bind-Value="recipe.Category"
+            SearchFunc=Search
+            ResetValueOnEmptyText=true
+            CoerceText=false
+            CoerceValue=false />
+    </Fields>
+</AddDialog>
+
+@code
+{
+    private Recipe recipe = new Recipe();
+
+    private List<Category> categories;
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await CategoryRepository.GetListAsync();
+        await base.OnInitializedAsync();
+    }
+    
+    
+    private async Task<IEnumerable<Category>> Search(string value)
+    {
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return categories;
+        return categories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+}

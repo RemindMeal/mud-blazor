@@ -1,0 +1,20 @@
+<Card Model=recipe Refresh=Refresh>
+    
+    <Header>
+        <MudText Typo="Typo.h6">@recipe.Name</MudText>
+    </Header>
+
+    <Content>
+        <MudText>@recipe.Description</MudText>
+        <MudText Typo="Typo.body2">@recipe.Category.Name</MudText>
+    </Content>
+
+</Card>
+
+@code {
+    [Parameter]
+    public Recipe recipe { get; set; }
+
+    [Parameter]
+    public EventCallback Refresh { get; set; }
+}

@@ -1,0 +1,38 @@
+@inject IAsyncRepository<Recipe> Repository
+
+<Table TModel=Recipe FilterFunc=FilterFunc>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Recipe, string>(x => x.Name)">
+                Nom
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Recipe, string>(x => x.Description)">
+                Description
+            </MudTableSortLabel>
+        </MudTh>
+    </HeaderContent>
+
+    <RowTemplate Context="recipe">
+        <MudTd>@recipe.Name</MudTd>
+        <MudTd>@recipe.Description</MudTd>
+    </RowTemplate>
+</Table>
+
+
+@code
+{
+    private string searchString = "";
+
+    private bool FilterFunc(Recipe recipe)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (recipe.Name?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true)
+            return true;
+        if (recipe.Description?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true)
+            return true;
+        return false;
+    }
+}

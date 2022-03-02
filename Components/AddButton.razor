@@ -1,0 +1,25 @@
+@typeparam TAddDialog where TAddDialog: ComponentBase
+
+@inject IDialogService DialogService
+
+<MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Add @onclick=OpenDialog />
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private async Task OpenDialog()
+    {
+		var options = new DialogOptions { CloseOnEscapeKey = true };
+        var dialog = DialogService.Show<TAddDialog>(Title, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await OnClose.InvokeAsync();
+        }
+    }
+}

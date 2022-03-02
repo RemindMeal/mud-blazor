@@ -1,0 +1,22 @@
+<MudTextField
+    @bind-Value="searchString"
+    Placeholder="Recherche"
+    Adornment="Adornment.Start"
+    AdornmentIcon="@Icons.Material.Filled.Search"
+    IconSize="Size.Medium"
+    Class="mt-0">
+</MudTextField>
+
+@code
+{
+    private string searchString {
+        get => SearchString;
+        set => SearchStringChanged.InvokeAsync(value);
+    }
+
+    [Parameter]
+    public string SearchString { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SearchStringChanged { get; set; }
+}

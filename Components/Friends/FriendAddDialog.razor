@@ -1,0 +1,13 @@
+@inject IAsyncRepository<Friend> Repository
+
+<AddDialog Model=friend>
+    <Fields Context=friend>
+        <MudTextField Label="Name" @bind-Value=friend.Name For="@(() => friend.Name)" />
+        <MudTextField Label="Surname" @bind-Value=friend.Surname For="@(() => friend.Surname)" />
+    </Fields>
+</AddDialog>
+
+@code
+{
+    private Friend friend = new Friend();
+}
