@@ -4,7 +4,7 @@
 <MudTable Items=Models Hover=true Loading=!loaded Border=true Filter=FilterFunc Class="ma-5">
     <ToolBarContent>
         <MudText Typo="Typo.h6">
-            Recipes List
+            @TableHeader
         </MudText>
         <MudSpacer />
         <MudTextField
@@ -35,6 +35,9 @@
 
     [Parameter]
     public Func<TModel, bool> FilterFunc { get; set; }
+
+    [Parameter]
+    public RenderFragment TableHeader { get; set; }
 
     [Parameter]
     public RenderFragment HeaderContent { get; set; }
