@@ -27,11 +27,13 @@
         await base.OnInitializedAsync();
     }
     
-    private async Task<IEnumerable<Category>> Search(string value)
+    private Task<IEnumerable<Category>> Search(string value)
     {
         // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return categories;
-        return categories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        return Task.FromResult(
+            string.IsNullOrEmpty(value)
+                ? categories
+                : categories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
+            );
     }
 }

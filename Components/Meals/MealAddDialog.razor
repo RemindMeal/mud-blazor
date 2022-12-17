@@ -37,10 +37,11 @@
         selectedRecipes.Add(new Recipe());
     }
 
-    private async Task<IEnumerable<Recipe>> Search(string value)
+    private Task<IEnumerable<Recipe>> Search(string value)
     {
-        if (string.IsNullOrEmpty(value))
-            return allRecipes;
-        return allRecipes.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        IEnumerable<Recipe> result = allRecipes;
+        if (!string.IsNullOrEmpty(value))
+            result = result.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        return Task.FromResult(result);
     }
 }
