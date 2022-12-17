@@ -1,0 +1,16 @@
+@page "/meals"
+
+<AddButton TAddDialog=MealAddDialog Title="Nouveau repas" OnClose="Refresh" />
+
+<MealTable @ref="mealTable" />
+
+@code
+{
+    private MealTable mealTable;
+
+    private async Task Refresh()
+    {
+        await mealTable.Refresh();
+    }
+
+}

@@ -8,8 +8,8 @@
         </MudText>
         <MudSpacer />
         <MudTextField
-            @bind-Value="searchString"
-            Placeholder="Search"
+            @bind-Value=searchString
+            Placeholder=Search
             Adornment="Adornment.Start"
             AdornmentIcon="@Icons.Material.Filled.Search"
             IconSize="Size.Medium"
@@ -50,5 +50,11 @@
         Models.AddRange(await Repository.GetListAsync());
         StateHasChanged();
         loaded = true;
+    }
+
+    public async Task Refresh()
+    {
+        Models = await Repository.GetListAsync();
+        StateHasChanged();
     }
 }

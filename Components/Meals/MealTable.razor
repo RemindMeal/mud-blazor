@@ -1,0 +1,50 @@
+@inject IAsyncRepository<Meal> Repository
+
+<Table TModel=Meal @ref="table">
+    <TableHeader>Tous vos repas</TableHeader>
+    <HeaderContent>
+        
+        <MudTh>
+            <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Meal, object>(x => x.Date)">
+                Date
+            </MudTableSortLabel>
+        </MudTh>e
+        
+        <MudTh>
+            Invités
+        </MudTh>
+        
+        <MudTh>
+            Menu
+        </MudTh>
+    
+    </HeaderContent>
+
+    <RowTemplate Context="meal">
+        
+        <MudTd>
+            @meal.Date
+        </MudTd>
+        
+        <MudTd>
+            @meal.Presences.Count invités :
+            @string.Join(",", @meal.Presences.Select(p => p.Friend.FullName))
+        </MudTd>
+        
+        <MudTd>
+            @meal.Dishes.Count plats :
+            @string.Join(",", @meal.Dishes.Select(d => d.Recipe.Name))
+        </MudTd>
+
+    </RowTemplate>
+</Table>
+
+@code
+{
+    private Table<Meal> table;
+
+    public async Task Refresh()
+    {
+        await table.Refresh();
+    }
+}

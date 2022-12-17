@@ -17,7 +17,7 @@ namespace MudBlazorTest.Model
 
         public override string ToString()
         {
-            return $"Model(Name = {Name}, Description = {Description}, Category = {Category}";
+            return Name;
         }
     }
 }

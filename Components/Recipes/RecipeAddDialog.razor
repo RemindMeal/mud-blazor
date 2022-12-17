@@ -8,7 +8,7 @@
             T=Category
             Label="Category"
             @bind-Value="recipe.Category"
-            SearchFunc=Search
+            SearchFunc="Search"
             ResetValueOnEmptyText=true
             CoerceText=false
             CoerceValue=false />
@@ -27,11 +27,8 @@
         await base.OnInitializedAsync();
     }
     
-    
     private async Task<IEnumerable<Category>> Search(string value)
     {
-        await Task.Delay(5);
-
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
             return categories;

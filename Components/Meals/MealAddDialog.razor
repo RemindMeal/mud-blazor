@@ -1,0 +1,46 @@
+@inject IAsyncRepository<Recipe> RecipeRepository
+
+<AddDialog TModel=Meal Model=meal>
+    <Fields Context=meal>
+        <MudDatePicker Label="Date" @bind-Date="meal.Date" />
+        @for (var i = 0; i < selectedRecipes.Count; ++i)
+        {
+            var local = i;
+            <MudAutocomplete
+                T=Recipe
+                Label="Sélectionner une recette"
+                ToStringFunc="@(r => r.Name)"
+                @bind-Value=selectedRecipes[local]
+                SearchFunc=Search
+                ResetValueOnEmptyText=true
+                CoerceText=false
+                CoerceValue=false />
+        }
+        <MudButton OnClick="Add">Ajouter un plat</MudButton>
+    </Fields>
+</AddDialog>
+
+@code
+{
+    private Meal meal = new Meal();
+    private List<Recipe> selectedRecipes = new List<Recipe>() { new Recipe() };
+    private List<Recipe> allRecipes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        allRecipes = await RecipeRepository.GetListAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private void Add()
+    {
+        selectedRecipes.Add(new Recipe());
+    }
+
+    private async Task<IEnumerable<Recipe>> Search(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return allRecipes;
+        return allRecipes.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+}
