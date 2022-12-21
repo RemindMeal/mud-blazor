@@ -11,7 +11,7 @@ using MudBlazorTest.Data;
 namespace MudBlazorTest.Migrations
 {
     [DbContext(typeof(MudBlazorTestDbContext))]
-    [Migration("20221221205322_CreateSchema")]
+    [Migration("20221221235606_CreateSchema")]
     partial class CreateSchema
     {
         /// <inheritdoc />
@@ -40,6 +40,9 @@ namespace MudBlazorTest.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()

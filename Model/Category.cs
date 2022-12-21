@@ -10,6 +10,8 @@ namespace MudBlazorTest.Model
         [Required(ErrorMessage = "Le groupe doit avoir un nom")]
         public string Name { get; set; }
 
+        public string Icon { get; set; }
+
         public ICollection<Recipe> Recipes { get; set; } = new List<Recipe>();
 
         public override string ToString() => Name;

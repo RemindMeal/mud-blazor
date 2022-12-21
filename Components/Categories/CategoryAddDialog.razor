@@ -1,10 +1,31 @@
 <AddDialog TModel=Category Model=category>
     <Fields Context=category>
         <MudTextField Label="Name" @bind-Value=category.Name For="@(() => category.Name)" />
+        <MudSelect T=string Label="Icône" @bind-Value=category.Icon>
+            @foreach (var icon in icons)
+            {
+                <MudSelectItem Value=@icon>
+                    <MudIcon Icon=@icon height="14" class="mr-1" />
+                </MudSelectItem>
+            }
+        </MudSelect>
     </Fields>
 </AddDialog>
 
 @code
 {
     private Category category = new Category();
+
+    private HashSet<string> icons = new() {
+        Icons.Custom.Uncategorized.FoodApple,
+        Icons.Custom.Uncategorized.Baguette,
+        Icons.Custom.Uncategorized.Sausage,
+        Icons.Custom.Uncategorized.Fish,
+        Icons.Custom.Uncategorized.AlertSuccess
+    };
+
+    private string ToIconString(string icon)
+    {
+        return $"@Icons.Custom.Uncategorized.{icon}";
+    }
 }
