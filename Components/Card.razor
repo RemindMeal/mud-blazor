@@ -8,7 +8,7 @@
             @Header(Model)
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+            @Button(Model)
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent>
@@ -28,6 +28,9 @@
 
     [Parameter]
     public RenderFragment<TModel> Header { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> Button { get; set; }
 
     [Parameter]
     public RenderFragment<TModel> Content { get; set; }

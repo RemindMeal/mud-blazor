@@ -1,0 +1,47 @@
+@typeparam TModel where TModel : IModel
+@inject IAsyncRepository<TModel> Repository
+@inject IJSRuntime JSRuntime
+
+
+<EditForm EditContext=editContext OnValidSubmit=OnValidSubmit>
+<DataAnnotationsValidator />
+<MudDialog>
+    <DialogContent>
+        @Fields(Model)
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+</EditForm>
+
+@code
+{
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> Fields { get; set; }
+
+    [Parameter]
+    public TModel Model { get; set; }
+
+    private EditContext editContext;
+
+    void Cancel() => MudDialog.Cancel();
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(Model);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", Model.ToString());
+        var model = await Repository.UpdateAsync(Model.Id, Model);
+        MudDialog.Close(DialogResult.Ok(model));
+    }
+
+
+}

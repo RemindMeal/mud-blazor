@@ -1,0 +1,31 @@
+@typeparam TModel
+@typeparam TEditDialog where TEditDialog: ComponentBase
+
+@inject IDialogService DialogService
+
+<MudIconButton Color=@Color.Default Icon="@Icons.Material.Filled.Settings" @onclick=OpenDialog />
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public TModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private async Task OpenDialog()
+    {
+		var options = new DialogOptions { CloseOnEscapeKey = true };
+        var parameters = new DialogParameters();
+        parameters.Add("Model", Model);
+        var dialog = DialogService.Show<TEditDialog>(Title, parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await OnClose.InvokeAsync();
+        }
+    }
+}

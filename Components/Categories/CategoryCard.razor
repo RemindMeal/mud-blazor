@@ -2,6 +2,9 @@
     <Header>
         <MudText Typo="Typo.h6">@category.Name</MudText>
     </Header>
+    <Button>
+        <EditButton TEditDialog=CategoryEditDialog TModel=Category Model=category Title="Modifier catégorie" OnClose="Refresh" />
+    </Button>
     <Content>
     </Content>
 </Card>
