@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MudBlazorTest.Model
 {
-    public sealed class Category
+    public sealed class Category : IModel
     {
         public int Id { get; set; }
 

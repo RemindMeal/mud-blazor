@@ -1,6 +1,6 @@
 namespace MudBlazorTest.Model
 {
-    public sealed class Recipe
+    public sealed class Recipe : IModel
     {
         public int Id { get; set; }
 

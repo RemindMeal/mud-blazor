@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MudBlazorTest.Model
 {
-    public sealed class Friend
+    public sealed class Friend : IModel
     {
         public Friend()
         {
