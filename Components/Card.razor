@@ -18,7 +18,7 @@
         @Button(Model)
         @* <MudButton Variant="Variant.Text" Color="Color.Primary">Détails</MudButton> *@
         @* <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" /> *@
-        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Default" @onclick="OpenDeleteDialog"/>
+        <DeleteButton TModel=TModel Model=Model Refresh=Refresh />
     </MudCardActions>
 </MudCard>
 
@@ -37,17 +37,4 @@
 
     [Parameter]
     public EventCallback Refresh { get; set; }
-
-    private async Task OpenDeleteDialog()
-    {
-        var parameters = new DialogParameters();
-        parameters.Add("Model", Model);
-        var options = new DialogOptions { CloseOnEscapeKey = true };
-        var dialog = DialogService.Show<DeleteDialog<TModel>>("Supprimer", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            await Refresh.InvokeAsync();
-        }
-    }
 }

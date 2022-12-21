@@ -1,0 +1,30 @@
+@typeparam TModel
+
+@inject IDialogService DialogService
+
+<MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Default" @onclick="OpenDialog"/>
+
+@code
+{
+    [Parameter]
+    public TModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public EventCallback Refresh { get; set; }
+
+    private async Task OpenDialog()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("Model", Model);
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var dialog = DialogService.Show<DeleteDialog<TModel>>("Supprimer", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await Refresh.InvokeAsync();
+        }
+    }
+}
