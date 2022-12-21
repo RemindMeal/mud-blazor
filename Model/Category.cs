@@ -1,3 +1,4 @@
+using System.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace MudBlazorTest.Model
