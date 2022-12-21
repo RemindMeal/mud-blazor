@@ -1,0 +1,47 @@
+@inject IAsyncRepository<Category> CategoryRepository
+@inject IJSRuntime JSRuntime
+
+<MudAutocomplete
+            T=Category
+            Label="Category"
+            @bind-Value=category
+            SearchFunc="Search"
+            ResetValueOnEmptyText=true
+            CoerceText=false
+            CoerceValue=false />
+
+@code
+{
+    private Category category { 
+        get => Category;
+        set
+        {
+            Category = value;
+            Task.Run(async () => await CategoryChanged.InvokeAsync(value));
+        }
+    }
+
+    [Parameter]
+    public Category Category { get; set; }
+
+    [Parameter]
+    public EventCallback<Category> CategoryChanged { get; set; }
+
+    private List<Category> categories;
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await CategoryRepository.GetListAsync();
+        await base.OnInitializedAsync();
+    }
+    
+    private Task<IEnumerable<Category>> Search(string value)
+    {
+        // if text is null or empty, show complete list
+        return Task.FromResult(
+            string.IsNullOrEmpty(value)
+                ? categories
+                : categories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
+            );
+    }
+}

@@ -4,36 +4,11 @@
     <Fields Context=recipe>
         <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
         <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />
-        <MudAutocomplete
-            T=Category
-            Label="Category"
-            @bind-Value="recipe.Category"
-            SearchFunc="Search"
-            ResetValueOnEmptyText=true
-            CoerceText=false
-            CoerceValue=false />
+        <CategoryAutoComplete @bind-Category=recipe.Category />
     </Fields>
 </AddDialog>
 
 @code
 {
     private Recipe recipe = new Recipe();
-
-    private List<Category> categories;
-
-    protected async override Task OnInitializedAsync()
-    {
-        categories = await CategoryRepository.GetListAsync();
-        await base.OnInitializedAsync();
-    }
-    
-    private Task<IEnumerable<Category>> Search(string value)
-    {
-        // if text is null or empty, show complete list
-        return Task.FromResult(
-            string.IsNullOrEmpty(value)
-                ? categories
-                : categories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
-            );
-    }
 }
