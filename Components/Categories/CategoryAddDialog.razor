@@ -1,5 +1,3 @@
-@inject IAsyncRepository<Category> Repository
-
 <AddDialog TModel=Category Model=category>
     <Fields Context=category>
         <MudTextField Label="Name" @bind-Value=category.Name For="@(() => category.Name)" />

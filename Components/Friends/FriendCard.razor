@@ -2,7 +2,9 @@
     <Header>
         <MudText Typo="Typo.h6">@context.Name @context.Surname</MudText>
     </Header>
-    <Button></Button>
+    <Button>
+        <EditButton TEditDialog=FriendEditDialog TModel=Friend Model=Friend Title="Modification d'un invité" OnClose="Refresh" />
+    </Button>
     <Content>
     </Content>
 </Card>
