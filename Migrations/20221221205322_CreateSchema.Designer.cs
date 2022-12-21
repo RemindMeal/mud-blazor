@@ -11,13 +11,14 @@ using MudBlazorTest.Data;
 namespace MudBlazorTest.Migrations
 {
     [DbContext(typeof(MudBlazorTestDbContext))]
-    [Migration("20220310143703_CreateSchema")]
+    [Migration("20221221205322_CreateSchema")]
     partial class CreateSchema
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
@@ -90,7 +91,6 @@ namespace MudBlazorTest.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -107,7 +107,8 @@ namespace MudBlazorTest.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -132,7 +133,7 @@ namespace MudBlazorTest.Migrations
 
             modelBuilder.Entity("MudBlazorTest.Model.Recipe", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
