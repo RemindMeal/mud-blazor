@@ -1,24 +1,31 @@
 @inject IAsyncRepository<Category> CategoryRepository
+@inject IJSRuntime JSRuntime
 
-<AddDialog TModel=Recipe Model=recipe>
-    <Fields Context=recipe>
-        <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
-        <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />
-        @* <MudAutocomplete
+<MudAutocomplete
             T=Category
             Label="Category"
-            @bind-Value="recipe.Category"
+            @bind-Value=category
             SearchFunc="Search"
             ResetValueOnEmptyText=true
             CoerceText=false
-            CoerceValue=false /> *@
-        <CategoryAutoComplete @bind-Category=recipe.Category />
-    </Fields>
-</AddDialog>
+            CoerceValue=false />
 
 @code
 {
-    private Recipe recipe = new Recipe();
+    private Category category { 
+        get => Category;
+        set
+        {
+            Category = value;
+            Task.Run(async () => await CategoryChanged.InvokeAsync(value));
+        }
+    }
+
+    [Parameter]
+    public Category Category { get; set; }
+
+    [Parameter]
+    public EventCallback<Category> CategoryChanged { get; set; }
 
     private List<Category> categories;
 
