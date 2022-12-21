@@ -1,0 +1,14 @@
+@typeparam TModel
+
+<EditForm EditContext=editContext OnValidSubmit=OnValidSubmit>
+<DataAnnotationsValidator />
+<MudDialog>
+    <DialogContent>
+        @Fields(Model)
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+</EditForm>
