@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazorTest.Model;
 
-namespace MudBlazorTest.Components
+namespace MudBlazorTest.Components.Forms
 {
     public sealed class EditFormDialog<TModel> : FormDialog<TModel> where TModel : IModel
     {

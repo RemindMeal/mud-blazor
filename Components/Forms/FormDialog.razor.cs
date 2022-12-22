@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazorTest.Services;
 
-namespace MudBlazorTest.Components
+namespace MudBlazorTest.Components.Forms
 {
     public abstract partial class FormDialog<TModel> : ComponentBase
     {

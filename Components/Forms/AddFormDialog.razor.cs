@@ -1,7 +1,7 @@
 using Microsoft.JSInterop;
 using MudBlazor;
 
-namespace MudBlazorTest.Components
+namespace MudBlazorTest.Components.Forms
 {
     public sealed class AddFormDialog<TModel> : FormDialog<TModel>
     {
