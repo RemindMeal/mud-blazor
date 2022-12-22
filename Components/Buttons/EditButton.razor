@@ -14,7 +14,7 @@
     public TModel Model { get; set; }
 
     [Parameter]
-    public EventCallback OnClose { get; set; }
+    public EventCallback OnSuccess { get; set; }
 
     private async Task OpenDialog()
     {
@@ -25,7 +25,7 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            await OnClose.InvokeAsync();
+            await OnSuccess.InvokeAsync();
         }
     }
 }
