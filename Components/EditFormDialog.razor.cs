@@ -4,7 +4,7 @@ using MudBlazorTest.Model;
 
 namespace MudBlazorTest.Components
 {
-    public sealed class EditDialog<TModel> : FormDialog<TModel> where TModel : IModel
+    public sealed class EditFormDialog<TModel> : FormDialog<TModel> where TModel : IModel
     {
         protected override async Task OnValidSubmit()
         {

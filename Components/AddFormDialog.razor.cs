@@ -3,7 +3,7 @@ using MudBlazor;
 
 namespace MudBlazorTest.Components
 {
-    public sealed class AddDialog<TModel> : FormDialog<TModel>
+    public sealed class AddFormDialog<TModel> : FormDialog<TModel>
     {
         protected override async Task OnValidSubmit()
         {

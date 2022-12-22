@@ -1,6 +1,6 @@
 @inject IAsyncRepository<Recipe> RecipeRepository
 
-<AddDialog TModel=Meal Model=meal>
+<AddFormDialog TModel=Meal Model=meal>
     <Fields Context=meal>
         <MudDatePicker Label="Date" @bind-Date="meal.Date" />
         @for (var i = 0; i < selectedRecipes.Count; ++i)
@@ -18,7 +18,7 @@
         }
         <MudButton OnClick="Add">Ajouter un plat</MudButton>
     </Fields>
-</AddDialog>
+</AddFormDialog>
 
 @code
 {

@@ -1,9 +1,9 @@
-<EditDialog Model=Model>
+<EditFormDialog Model=Model>
     <Fields Context=friend>
         <MudTextField Label="Name" @bind-Value=friend.Name For="@(() => friend.Name)" />
         <MudTextField Label="Surname" @bind-Value=friend.Surname For="@(() => friend.Surname)" />
     </Fields>
-</EditDialog>
+</EditFormDialog>
 
 @code
 {
