@@ -17,10 +17,10 @@ builder.Services.AddDbContext<MudBlazorTestDbContext>(opt =>
     },
     ServiceLifetime.Transient);
 
-builder.Services.AddTransient<IAsyncRepository<Recipe>, RecipeRepository>();
-builder.Services.AddTransient<IAsyncRepository<Category>, CategoryRepository>();
-builder.Services.AddTransient<IAsyncRepository<Friend>, FriendRepository>();
-builder.Services.AddTransient<IAsyncRepository<Meal>, MealRepository>();
+builder.Services.AddScoped<IAsyncRepository<Recipe>, RecipeRepository>();
+builder.Services.AddScoped<IAsyncRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<IAsyncRepository<Friend>, FriendRepository>();
+builder.Services.AddScoped<IAsyncRepository<Meal>, MealRepository>();
 // builder.Services.AddTransient<IAsyncRepository<Ingredient>, IngredientRepository>();
 
 var app = builder.Build();
