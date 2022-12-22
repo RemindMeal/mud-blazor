@@ -34,9 +34,11 @@
 
     public async Task Refresh()
     {
+        await JSRuntime.InvokeVoidAsync("console.log", "Grid.Refresh invoked, refreshing models");
         models.Clear();
         models.AddRange(await Repository.GetListAsync());
         filteredModels = models.Where(FilterFunc).ToList();
-        await InvokeAsync(() => StateHasChanged());
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("console.log", "Grid refreshed");
     }
 }

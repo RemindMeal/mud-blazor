@@ -1,3 +1,5 @@
+@inject IJSRuntime JSRuntime;
+
 <SearchBar @bind-SearchString="SearchString"/>
 
 <Grid TModel=Category @ref="grid" FilterFunc=FilterFunc>
@@ -21,7 +23,9 @@
 
     public async Task Refresh()
     {
+        await JSRuntime.InvokeVoidAsync("console.log", "CategoryGrid.Refresh invoked, invoking grid.Refresh()");
         await grid.Refresh();
+        await JSRuntime.InvokeVoidAsync("console.log", "CategoryGrid.grid.Refresh() invoked");
     }
 
     private bool FilterFunc(Category category)

@@ -10,7 +10,12 @@ namespace MudBlazorTest.Components.Forms
         {
             await JSRuntime.InvokeVoidAsync("console.log", $"Modifying {Model}");
             var model = await Repository.UpdateAsync(Model.Id, Model);
-            MudDialog.Close(DialogResult.Ok(model));
+            if (model != null)
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", $"{Model} has been successfully modified. Closing Dialog from EditFormDialog");
+                MudDialog.Close(DialogResult.Ok(model));
+                await JSRuntime.InvokeVoidAsync("console.log", "Dialog closed");
+            }
         }
     }
 }
