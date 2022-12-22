@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
-using MudBlazorTest.Model;
 using MudBlazorTest.Services;
 
 namespace MudBlazorTest.Components
@@ -30,10 +29,9 @@ namespace MudBlazorTest.Components
 
         protected override void OnInitialized()
         {
-            InitializedEditContext();
+            editContext = new EditContext(Model);
         }
 
-        protected abstract void InitializedEditContext();
         protected abstract Task OnValidSubmit();
     }
 }
