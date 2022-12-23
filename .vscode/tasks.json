@@ -7,7 +7,7 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "src",
+                "--project", "src",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -18,18 +18,6 @@
             }
         },
         {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/MudBlazorTest.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "watch",
             "command": "dotnet",
             "type": "process",
@@ -38,7 +26,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/MudBlazorTest.csproj",
+                "${workspaceFolder}/src/MudBlazorTest.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
