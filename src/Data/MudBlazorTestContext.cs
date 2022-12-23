@@ -22,6 +22,7 @@ public class RemindMealDbContext : DbContext
 
         // Recipe
         modelBuilder.Entity<Recipe>().HasIndex(r => r.Name).IsUnique();
+        modelBuilder.Entity<Recipe>().Property(r => r.Name).IsRequired();
 
         // Ingredient
         modelBuilder.Entity<Ingredient>().HasIndex(i => i.Name).IsUnique();

@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace RemindMeal.Model;
 
 public sealed class Recipe : IModel
 {
     public int Id { get; set; }
 
+    [Required(ErrorMessage = "Cette recette doit avoir un nom")]
     public string Name { get; set; }
 
     public string Description { get; set; }
