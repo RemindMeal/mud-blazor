@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 using RemindMeal.Model;
+using RemindMeal.Services;
 
 namespace RemindMeal.Components.Forms;
 
@@ -11,6 +12,9 @@ public sealed class EditFormDialog<TModel> : FormDialog<TModel> where TModel : I
 {
     [Parameter]
     public int Id { get; set; }
+
+    [Inject]
+    public IAsyncRepository<TModel> Repository { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

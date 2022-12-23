@@ -5,6 +5,7 @@
         "ms-dotnettools.csharp",
         "streetsidesoftware.code-spell-checker",
         "streetsidesoftware.code-spell-checker-french",
-        "jmrog.vscode-nuget-package-manager"
+        "jmrog.vscode-nuget-package-manager",
+        "alexcvzz.vscode-sqlite"
     ]
 }

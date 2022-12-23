@@ -19,6 +19,22 @@ public sealed class MealRepository : AsyncRepository<Meal, DateTime>
             .OrderBy(m => m.Date).ToListAsync();
     }
 
+    public override async Task<Meal> InsertAsync(Meal meal)
+    {
+        _dbSet.Add(meal);
+        Console.WriteLine($"Inserting {meal}");
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException e)
+        {
+            Console.WriteLine($"A DB update exception has been raised: {e}");
+        }
+
+        return meal;
+    }
+
     public override async Task<Meal> UpdateAsync(int id, Meal newMeal)
     {
         var meal = await _dbSet

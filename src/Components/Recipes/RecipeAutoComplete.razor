@@ -1,0 +1,48 @@
+@inherits RemindMealComponent
+@inject IAsyncRepository<Recipe> Repository
+
+<MudAutocomplete
+            T=Recipe
+            Label="Sélectionner une recette"
+            ToStringFunc="@(r => r.Name)"
+            @bind-Value=recipe
+            SearchFunc="Search"
+            ResetValueOnEmptyText=true
+            CoerceText=false
+            CoerceValue=false />
+
+@code
+{
+    private Recipe recipe { 
+        get => Recipe;
+        set
+        {
+            Recipe = value;
+            Task.Run(async () => await RecipeChanged.InvokeAsync(value));
+        }
+    }
+
+    [Parameter]
+    public Recipe Recipe { get; set; }
+
+    [Parameter]
+    public EventCallback<Recipe> RecipeChanged { get; set; }
+
+    private List<Recipe> recipes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        recipes = await Repository.GetListAsync();
+        await base.OnInitializedAsync();
+    }
+    
+    private Task<IEnumerable<Recipe>> Search(string value)
+    {
+        // if text is null or empty, show complete list
+        return Task.FromResult(
+            string.IsNullOrEmpty(value)
+                ? recipes
+                : recipes.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
+            );
+    }
+}
