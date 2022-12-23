@@ -1,3 +1,4 @@
+@using System.Globalization
 @inject IAsyncRepository<Meal> Repository
 
 <Table TModel=Meal @ref="table">
@@ -8,7 +9,7 @@
             <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Meal, object>(x => x.Date)">
                 Date
             </MudTableSortLabel>
-        </MudTh>e
+        </MudTh>
         
         <MudTh>
             Invités
@@ -23,7 +24,7 @@
     <RowTemplate Context="meal">
         
         <MudTd>
-            @meal.Date
+            @meal.Date.ToString("D", new CultureInfo("fr-FR"))
         </MudTd>
         
         <MudTd>
