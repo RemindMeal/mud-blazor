@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
-using MudBlazorTest.Services;
+using RemindMeal.Services;
 
-namespace MudBlazorTest.Components.Forms
+namespace RemindMeal.Components.Forms
 {
     public abstract partial class FormDialog<TModel> : ComponentBase
     {

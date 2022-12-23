@@ -1,11 +1,11 @@
-using MudBlazorTest.Data;
-using MudBlazorTest.Model;
+using RemindMeal.Data;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Services
+namespace RemindMeal.Services
 {
     public sealed class IngredientRepository : AsyncRepository<Ingredient, string>
     {
-        public IngredientRepository(MudBlazorTestDbContext context) : base(context, context.Ingredients)
+        public IngredientRepository(RemindMealDbContext context) : base(context, context.Ingredients)
         {}
 
         public override async Task<Ingredient> UpdateAsync(int id, Ingredient newIngredient)

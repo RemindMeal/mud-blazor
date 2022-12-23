@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using MudBlazorTest.Model;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Data
+namespace RemindMeal.Data
 {
-    public class MudBlazorTestDbContext : DbContext
+    public class RemindMealDbContext : DbContext
     {
-        public MudBlazorTestDbContext(DbContextOptions<MudBlazorTestDbContext> options) : base(options)
+        public RemindMealDbContext(DbContextOptions<RemindMealDbContext> options) : base(options)
         { }
 
         public DbSet<Recipe> Recipes { get; set; }

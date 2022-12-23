@@ -1,11 +1,11 @@
-using MudBlazorTest.Data;
-using MudBlazorTest.Model;
+using RemindMeal.Data;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Services
+namespace RemindMeal.Services
 {
     public sealed class CategoryRepository : AsyncRepository<Category, string>
     {
-        public CategoryRepository(MudBlazorTestDbContext context) : base(context, context.Categories)
+        public CategoryRepository(RemindMealDbContext context) : base(context, context.Categories)
         {}
 
         public async override Task<Category> UpdateAsync(int id, Category newType)

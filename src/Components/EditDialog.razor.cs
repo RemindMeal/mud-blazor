@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazorTest.Model;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Components;
+namespace RemindMeal.Components;
 
 public abstract class EditDialog<TModel> : ComponentBase where TModel : IModel
 {

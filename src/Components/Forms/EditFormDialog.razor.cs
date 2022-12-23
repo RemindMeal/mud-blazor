@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
-using MudBlazorTest.Model;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Components.Forms
+namespace RemindMeal.Components.Forms
 {
     public sealed class EditFormDialog<TModel> : FormDialog<TModel> where TModel : IModel
     {

@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using MudBlazorTest.Data;
-using MudBlazorTest.Model;
+using RemindMeal.Data;
+using RemindMeal.Model;
 
-namespace MudBlazorTest.Services
+namespace RemindMeal.Services
 {
     public sealed class MealRepository : AsyncRepository<Meal, DateTime>
     {
-        public MealRepository(MudBlazorTestDbContext context) : base(context, context.Meals)
+        public MealRepository(RemindMealDbContext context) : base(context, context.Meals)
         {}
 
         public override async Task<List<Meal>> GetListAsync()

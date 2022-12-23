@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MudBlazorTest.Model
+namespace RemindMeal.Model
 {
     public sealed class Meal : IModel
     {

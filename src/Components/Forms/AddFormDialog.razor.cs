@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 
-namespace MudBlazorTest.Components.Forms
+namespace RemindMeal.Components.Forms
 {
     public sealed class AddFormDialog<TModel> : FormDialog<TModel> where TModel : new()
     {

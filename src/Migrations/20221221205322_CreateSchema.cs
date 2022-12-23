@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MudBlazorTest.Migrations
+namespace RemindMeal.Migrations
 {
     /// <inheritdoc />
     public partial class CreateSchema : Migration

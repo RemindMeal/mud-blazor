@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using MudBlazorTest.Data;
+using RemindMeal.Data;
 
-namespace MudBlazorTest.Services
+namespace RemindMeal.Services
 {
     public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TModel> where TModel: class
     {
-        protected readonly MudBlazorTestDbContext _context;
+        protected readonly RemindMealDbContext _context;
         protected readonly DbSet<TModel> _dbSet;
 
-        protected AsyncRepository(MudBlazorTestDbContext context, DbSet<TModel> dbSet)
+        protected AsyncRepository(RemindMealDbContext context, DbSet<TModel> dbSet)
         {
             _context = context;
             _dbSet = dbSet;

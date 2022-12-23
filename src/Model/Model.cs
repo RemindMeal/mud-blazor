@@ -1,4 +1,4 @@
-namespace MudBlazorTest.Model
+namespace RemindMeal.Model
 {
     public interface IModel
     {

@@ -1,4 +1,4 @@
-namespace MudBlazorTest.Services
+namespace RemindMeal.Services
 {
     public interface IAsyncRepository<TModel>
     {
