@@ -3,11 +3,11 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
             "type": "process",
+            "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceFolder}/MudBlazorTest.csproj",
+                "src",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
