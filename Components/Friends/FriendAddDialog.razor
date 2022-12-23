@@ -1,11 +1,6 @@
-<AddFormDialog Model=friend>
+<AddFormDialog TModel=Friend>
     <Fields Context=friend>
         <MudTextField Label="Name" @bind-Value=friend.Name For="@(() => friend.Name)" />
         <MudTextField Label="Surname" @bind-Value=friend.Surname For="@(() => friend.Surname)" />
     </Fields>
 </AddFormDialog>
-
-@code
-{
-    private Friend friend = new Friend();
-}

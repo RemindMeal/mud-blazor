@@ -1,5 +1,5 @@
-@typeparam TModel
-@typeparam TEditDialog where TEditDialog: ComponentBase
+@typeparam TModel where TModel : IModel
+@typeparam TEditDialog where TEditDialog : ComponentBase
 
 @inject IDialogService DialogService
 
@@ -20,7 +20,7 @@
     {
 		var options = new DialogOptions { CloseOnEscapeKey = true };
         var parameters = new DialogParameters();
-        parameters.Add("Model", Model);
+        parameters.Add("Id", Model.Id);
         var dialog = DialogService.Show<TEditDialog>(Title, parameters, options);
         var result = await dialog.Result;
         if (!result.Cancelled)

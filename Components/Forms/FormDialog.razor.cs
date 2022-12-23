@@ -20,17 +20,11 @@ namespace MudBlazorTest.Components.Forms
         [Parameter]
         public RenderFragment<TModel> Fields { get; set; }
 
-        [Parameter]
-        public TModel Model { get; set; }
-
         private void Cancel() => MudDialog.Cancel();
 
         protected EditContext editContext;
 
-        protected override void OnInitialized()
-        {
-            editContext = new EditContext(Model);
-        }
+        protected TModel model;
 
         protected abstract Task OnValidSubmit();
     }

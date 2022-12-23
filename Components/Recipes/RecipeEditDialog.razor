@@ -1,7 +1,9 @@
-<AddFormDialog TModel=Recipe>
+@inherits EditDialog<Recipe>
+
+<EditFormDialog TModel=Recipe Id=Id>
     <Fields Context=recipe>
         <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
         <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />
         <CategoryAutoComplete @bind-Category=recipe.Category />
     </Fields>
-</AddFormDialog>
+</EditFormDialog>

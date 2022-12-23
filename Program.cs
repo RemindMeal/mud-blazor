@@ -10,12 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
-builder.Services.AddDbContext<MudBlazorTestDbContext>(opt =>
+
+builder.Services.AddDbContextFactory<MudBlazorTestDbContext>(opt =>
     {
         opt.UseSqlite(builder.Configuration.GetConnectionString("db"));
         opt.EnableDetailedErrors();
-    },
-    ServiceLifetime.Transient);
+    });
 
 builder.Services.AddScoped<IAsyncRepository<Recipe>, RecipeRepository>();
 builder.Services.AddScoped<IAsyncRepository<Category>, CategoryRepository>();

@@ -1,12 +1,8 @@
-<EditFormDialog Model=Model>
+@inherits EditDialog<Friend>
+
+<EditFormDialog TModel=Friend Id=Id>
     <Fields Context=friend>
         <MudTextField Label="Name" @bind-Value=friend.Name For="@(() => friend.Name)" />
         <MudTextField Label="Surname" @bind-Value=friend.Surname For="@(() => friend.Surname)" />
     </Fields>
 </EditFormDialog>
-
-@code
-{
-    [Parameter]
-    public Friend Model { get; set; }
-}

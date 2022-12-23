@@ -1,10 +1,5 @@
-<AddFormDialog TModel=Category Model=category>
+<AddFormDialog TModel=Category>
     <Fields Context=category>
         <MudTextField Label="Name" @bind-Value=category.Name For="@(() => category.Name)" />
     </Fields>
 </AddFormDialog>
-
-@code
-{
-    private Category category = new Category();
-}

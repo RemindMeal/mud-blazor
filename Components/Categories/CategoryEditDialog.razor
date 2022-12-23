@@ -1,11 +1,7 @@
-<EditFormDialog TModel=Category Model=Model>
+@inherits EditDialog<Category>
+
+<EditFormDialog TModel=Category Id=Id>
     <Fields Context=category>
         <MudTextField Label="Name" @bind-Value=category.Name For="@(() => category.Name)" />
     </Fields>
 </EditFormDialog>
-
-@code
-{
-    [Parameter]
-    public Category Model { get; set; }
-}
