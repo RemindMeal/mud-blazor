@@ -26,10 +26,9 @@ public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TMod
     public virtual async Task<TModel> InsertAsync(TModel model)
     {
         _dbSet.Add(model);
-        Console.WriteLine(model.ToString());
+        Console.WriteLine($"Inserting {model}");
         try
         {
-
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateException e)
