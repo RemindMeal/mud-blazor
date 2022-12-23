@@ -1,7 +1,6 @@
+@inherits RemindMealComponent
 @typeparam TModel
 @inject IAsyncRepository<TModel> Repository
-@inject IJSRuntime JSRuntime
-
 
 <EditForm EditContext=editContext OnValidSubmit=OnValidSubmit>
 <DataAnnotationsValidator />

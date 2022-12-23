@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using MudBlazor;
 using RemindMeal.Services;
 
 namespace RemindMeal.Components.Forms
 {
-    public abstract partial class FormDialog<TModel> : ComponentBase
+    public abstract partial class FormDialog<TModel> : RemindMealComponent
     {
         [Inject]
         public IAsyncRepository<TModel> Repository { get; set; }
-
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
 
         [CascadingParameter]
         public MudDialogInstance MudDialog { get; set; }

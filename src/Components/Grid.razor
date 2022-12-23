@@ -1,6 +1,6 @@
+@inherits RemindMealComponent
 @typeparam TModel
 @inject IAsyncRepository<TModel> Repository
-@inject IJSRuntime JSRuntime
 
 <MudGrid Class="ma-5">
     @if(filteredModels != null)
