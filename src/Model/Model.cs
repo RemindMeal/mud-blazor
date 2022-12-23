@@ -1,7 +1,6 @@
-namespace RemindMeal.Model
+namespace RemindMeal.Model;
+
+public interface IModel
 {
-    public interface IModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

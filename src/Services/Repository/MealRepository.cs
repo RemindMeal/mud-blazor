@@ -2,107 +2,107 @@ using Microsoft.EntityFrameworkCore;
 using RemindMeal.Data;
 using RemindMeal.Model;
 
-namespace RemindMeal.Services
+namespace RemindMeal.Services;
+
+public sealed class MealRepository : AsyncRepository<Meal, DateTime>
 {
-    public sealed class MealRepository : AsyncRepository<Meal, DateTime>
+    public MealRepository(RemindMealDbContext context) : base(context, context.Meals)
+    { }
+
+    public override async Task<List<Meal>> GetListAsync()
     {
-        public MealRepository(RemindMealDbContext context) : base(context, context.Meals)
-        {}
+        return await _dbSet
+            .Include(m => m.Presences)
+                .ThenInclude(p => p.Friend)
+            .Include(m => m.Dishes)
+                .ThenInclude(d => d.Recipe)
+            .OrderBy(m => m.Date).ToListAsync();
+    }
 
-        public override async Task<List<Meal>> GetListAsync()
+    public override async Task<Meal> UpdateAsync(int id, Meal newMeal)
+    {
+        var meal = await _dbSet
+            .Include(meal => meal.Dishes)
+                .ThenInclude(dish => dish.Recipe)
+            .Include(meal => meal.Presences)
+                .ThenInclude(presence => presence.Friend)
+            .Where(meal => meal.Id == id)
+            .SingleOrDefaultAsync();
+
+        if (meal == null)
+            return null;
+
+        meal.Date = newMeal.Date;
+        RemoveRecipes(meal, newMeal);
+        AddNewRecipes(meal, newMeal);
+        RemoveGuests(meal, newMeal);
+        AddNewGuests(meal, newMeal);
+
+        _dbSet.Update(meal);
+        try
         {
-            return await _dbSet
-                .Include(m => m.Presences)
-                    .ThenInclude(p => p.Friend)
-                .Include(m => m.Dishes)
-                    .ThenInclude(d => d.Recipe)
-                .OrderBy(m => m.Date).ToListAsync();
+            await _context.SaveChangesAsync();
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine($"Error raised during meal update : {e}");
         }
 
-        public override async Task<Meal> UpdateAsync(int id, Meal newMeal)
-        {
-            var meal = await _dbSet
-                .Include(meal => meal.Dishes)
-                    .ThenInclude(dish => dish.Recipe)
-                .Include(meal => meal.Presences)
-                    .ThenInclude(presence => presence.Friend)
-                .Where(meal => meal.Id == id)
-                .SingleOrDefaultAsync();
-            
-            if (meal == null)
-                return null;
- 
-            meal.Date = newMeal.Date;
-            RemoveRecipes(meal, newMeal);
-            AddNewRecipes(meal, newMeal);
-            RemoveGuests(meal, newMeal);
-            AddNewGuests(meal, newMeal);
+        return meal;
+    }
 
-            _dbSet.Update(meal);
-            try {
-                await _context.SaveChangesAsync();
-            }
-            catch (InvalidOperationException e)
+    private void RemoveRecipes(Meal meal, Meal newMeal)
+    {
+        var newMealRecipeIds = newMeal.Dishes.Select(dish => dish.RecipeId).ToHashSet();
+        foreach (var dish in meal.Dishes)
+        {
+            if (!newMealRecipeIds.Contains(dish.RecipeId))
             {
-                Console.WriteLine($"Error raised during meal update : {e}");
+                meal.Dishes.Remove(dish);
             }
-        
-            return meal;
         }
+    }
 
-        private void RemoveRecipes(Meal meal, Meal newMeal)
+    private void AddNewRecipes(Meal meal, Meal newMeal)
+    {
+        var mealRecipeIds = meal.Dishes.Select(dish => dish.RecipeId).ToHashSet();
+        foreach (var newDish in newMeal.Dishes)
         {
-            var newMealRecipeIds = newMeal.Dishes.Select(dish => dish.RecipeId).ToHashSet();
-            foreach (var dish in meal.Dishes)
+            if (!mealRecipeIds.Contains(newDish.RecipeId))
             {
-                if (!newMealRecipeIds.Contains(dish.RecipeId))
-                {
-                    meal.Dishes.Remove(dish);
-                }
+                meal.Dishes.Add(newDish);
             }
         }
+    }
 
-        private void AddNewRecipes(Meal meal, Meal newMeal)
+    private void RemoveGuests(Meal meal, Meal newMeal)
+    {
+        var newMealFriendIds = newMeal.Presences.Select(presence => presence.FriendId).ToHashSet();
+        foreach (var presence in meal.Presences)
         {
-            var mealRecipeIds = meal.Dishes.Select(dish => dish.RecipeId).ToHashSet();
-            foreach (var newDish in newMeal.Dishes)
+            if (!newMealFriendIds.Contains(presence.FriendId))
             {
-                if (!mealRecipeIds.Contains(newDish.RecipeId))
-                {
-                    meal.Dishes.Add(newDish);
-                }
+                meal.Presences.Remove(presence);
             }
         }
+    }
 
-        private void RemoveGuests(Meal meal, Meal newMeal)
+    private void AddNewGuests(Meal meal, Meal newMeal)
+    {
+        var mealFriendIds = meal.Presences.Select(presence => presence.FriendId).ToHashSet();
+        foreach (var newPresence in newMeal.Presences)
         {
-            var newMealFriendIds = newMeal.Presences.Select(presence => presence.FriendId).ToHashSet();
-            foreach (var presence in meal.Presences)
+            if (!mealFriendIds.Contains(newPresence.FriendId))
             {
-                if (!newMealFriendIds.Contains(presence.FriendId))
-                {
-                    meal.Presences.Remove(presence);
-                }
+                meal.Presences.Add(newPresence);
             }
         }
+    }
 
-        private void AddNewGuests(Meal meal, Meal newMeal)
-        {
-            var mealFriendIds = meal.Presences.Select(presence => presence.FriendId).ToHashSet();
-            foreach (var newPresence in newMeal.Presences)
-            {
-                if (!mealFriendIds.Contains(newPresence.FriendId))
-                {
-                    meal.Presences.Add(newPresence);
-                }
-            }
-        }
+    protected override DateTime OrderKeySelector(Meal meal) => (DateTime)meal.Date;
 
-        protected override DateTime OrderKeySelector(Meal meal) => (DateTime)meal.Date;
-
-        public override async Task<Meal> DeleteAsync(Meal meal)
-        {
-            return await DeleteAsync(meal.Id);
-        }
+    public override async Task<Meal> DeleteAsync(Meal meal)
+    {
+        return await DeleteAsync(meal.Id);
     }
 }

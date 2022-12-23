@@ -1,33 +1,32 @@
 using RemindMeal.Data;
 using RemindMeal.Model;
 
-namespace RemindMeal.Services
+namespace RemindMeal.Services;
+
+public sealed class CategoryRepository : AsyncRepository<Category, string>
 {
-    public sealed class CategoryRepository : AsyncRepository<Category, string>
+    public CategoryRepository(RemindMealDbContext context) : base(context, context.Categories)
+    { }
+
+    public async override Task<Category> UpdateAsync(int id, Category newType)
     {
-        public CategoryRepository(RemindMealDbContext context) : base(context, context.Categories)
-        {}
+        var type = await _dbSet.FindAsync(id);
+        if (type == null)
+            return null;
 
-        public async override Task<Category> UpdateAsync(int id, Category newType)
-        {
-            var type = await _dbSet.FindAsync(id);
-            if (type == null)
-                return null;
+        if (type.Name != newType.Name)
+            type.Name = newType.Name;
 
-            if (type.Name != newType.Name)
-                type.Name = newType.Name;
+        _dbSet.Update(type);
+        await _context.SaveChangesAsync();
 
-            _dbSet.Update(type);
-            await _context.SaveChangesAsync();
-        
-            return type;
-        }
-
-        public override async Task<Category> DeleteAsync(Category model)
-        {
-            return await DeleteAsync(model.Id);
-        }
-
-        protected override string OrderKeySelector(Category t) => t.Name;
+        return type;
     }
+
+    public override async Task<Category> DeleteAsync(Category model)
+    {
+        return await DeleteAsync(model.Id);
+    }
+
+    protected override string OrderKeySelector(Category t) => t.Name;
 }

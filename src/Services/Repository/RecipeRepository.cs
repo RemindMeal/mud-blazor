@@ -2,66 +2,67 @@ using Microsoft.EntityFrameworkCore;
 using RemindMeal.Data;
 using RemindMeal.Model;
 
-namespace RemindMeal.Services
+namespace RemindMeal.Services;
+
+public sealed class RecipeRepository : AsyncRepository<Recipe, string>
 {
-    public sealed class RecipeRepository : AsyncRepository<Recipe, string>
+    public RecipeRepository(RemindMealDbContext context) : base(context, context.Recipes)
+    { }
+
+    public async override Task<List<Recipe>> GetListAsync()
     {
-        public RecipeRepository(RemindMealDbContext context) : base(context, context.Recipes)
-        {}
+        return await _dbSet.Include(r => r.Category).OrderBy(r => r.Name).ToListAsync();
+    }
 
-        public async override Task<List<Recipe>> GetListAsync()
+    public override async Task<Recipe> GetByIdAsync(int id)
+    {
+        return await _dbSet.Include(r => r.Category).SingleAsync(r => r.Id == id);
+    }
+
+    public override async Task<Recipe> InsertAsync(Recipe recipe)
+    {
+        _context.Entry(recipe.Category).State = EntityState.Unchanged;
+        _dbSet.Add(recipe);
+        try
         {
-            return await _dbSet.Include(r => r.Category).OrderBy(r => r.Name).ToListAsync();
+
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException e)
+        {
+            Console.WriteLine($"A DB update exception has been raised: {e}");
         }
 
-        public override async Task<Recipe> GetByIdAsync(int id)
+        return recipe;
+    }
+
+    public override async Task<Recipe> UpdateAsync(int id, Recipe newRecipe)
+    {
+        var recipe = await _dbSet.FindAsync(id);
+        if (recipe == null)
+            return null;
+
+        recipe.Name = newRecipe.Name;
+        recipe.Description = newRecipe.Description;
+        recipe.Category = newRecipe.Category;
+
+        _dbSet.Update(recipe);
+        try
         {
-            return await _dbSet.Include(r => r.Category).SingleAsync(r => r.Id == id);
+            await _context.SaveChangesAsync();
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine($"Error raised during update : {e}");
         }
 
-        public override async Task<Recipe> InsertAsync(Recipe recipe)
-        {
-            _context.Entry(recipe.Category).State = EntityState.Unchanged;
-            _dbSet.Add(recipe);
-            try {
-                
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException e)
-            {
-                Console.WriteLine($"A DB update exception has been raised: {e}");
-            }
+        return recipe;
+    }
 
-            return recipe;
-        }
+    protected override string OrderKeySelector(Recipe t) => t.Name;
 
-        public override async Task<Recipe> UpdateAsync(int id, Recipe newRecipe)
-        {
-            var recipe = await _dbSet.FindAsync(id);
-            if (recipe == null)
-                return null;
- 
-            recipe.Name = newRecipe.Name;
-            recipe.Description = newRecipe.Description;
-            recipe.Category = newRecipe.Category;
-
-            _dbSet.Update(recipe);
-            try {
-                await _context.SaveChangesAsync();
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine($"Error raised during update : {e}");
-            }
-        
-            return recipe;
-        }
-
-        protected override string OrderKeySelector(Recipe t) => t.Name;
-
-        public override async Task<Recipe> DeleteAsync(Recipe model)
-        {
-            return await DeleteAsync(model.Id);
-        }
+    public override async Task<Recipe> DeleteAsync(Recipe model)
+    {
+        return await DeleteAsync(model.Id);
     }
 }
