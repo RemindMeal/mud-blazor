@@ -5,14 +5,17 @@ using MudBlazor;
 
 namespace RemindMeal.Components.Forms;
 
-public sealed class AddFormDialog<TModel> : FormDialog<TModel> where TModel : new()
+public sealed class AddFormDialog<TModel> : FormDialog<TModel>
 {
+    [Parameter]
+    public TModel Model { get; set; }
+
     [Parameter]
     public EventCallback<TModel> OnValidated { get; set; }
 
     protected override void OnInitialized()
     {
-        model = new TModel();
+        model = Model;
         editContext = new EditContext(model);
         base.OnInitialized();
     }

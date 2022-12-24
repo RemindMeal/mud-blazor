@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class RecipeRepository : AsyncRepository<Recipe, string>
 {
@@ -14,12 +13,12 @@ public sealed class RecipeRepository : AsyncRepository<Recipe, string>
         return await _dbSet.Include(r => r.Category).OrderBy(r => r.Name).ToListAsync();
     }
 
-    public override async Task<Recipe> GetByIdAsync(int id)
+    public override async Task<Recipe?> GetByIdAsync(Guid id)
     {
         return await _dbSet.Include(r => r.Category).SingleAsync(r => r.Id == id);
     }
 
-    public override async Task<Recipe> InsertAsync(Recipe recipe)
+    public override async Task<Recipe?> InsertAsync(Recipe recipe)
     {
         _context.Entry(recipe.Category).State = EntityState.Unchanged;
         _dbSet.Add(recipe);
@@ -36,7 +35,7 @@ public sealed class RecipeRepository : AsyncRepository<Recipe, string>
         return recipe;
     }
 
-    public override async Task<Recipe> UpdateAsync(int id, Recipe newRecipe)
+    public override async Task<Recipe?> UpdateAsync(Guid id, Recipe newRecipe)
     {
         var recipe = await _dbSet.FindAsync(id);
         if (recipe == null)
@@ -61,7 +60,7 @@ public sealed class RecipeRepository : AsyncRepository<Recipe, string>
 
     protected override string OrderKeySelector(Recipe t) => t.Name;
 
-    public override async Task<Recipe> DeleteAsync(Recipe model)
+    public override async Task<Recipe?> DeleteAsync(Recipe model)
     {
         return await DeleteAsync(model.Id);
     }

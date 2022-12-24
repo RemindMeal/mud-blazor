@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Data;
+namespace RemindMealData;
 
-public class RemindMealDbContext : DbContext
+public sealed class RemindMealDbContext : DbContext
 {
     public RemindMealDbContext(DbContextOptions<RemindMealDbContext> options) : base(options)
     { }
@@ -12,7 +12,6 @@ public class RemindMealDbContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Meal> Meals { get; set; }
     public DbSet<Friend> Friends { get; set; }
-    public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<Presence> Presences { get; set; }
     public DbSet<Dish> Dishes { get; set; }
 
@@ -21,15 +20,19 @@ public class RemindMealDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Recipe
+        modelBuilder.Entity<Recipe>().HasKey(r => r.Id);
         modelBuilder.Entity<Recipe>().HasIndex(r => r.Name).IsUnique();
         modelBuilder.Entity<Recipe>().Property(r => r.Name).IsRequired();
 
-        // Ingredient
-        modelBuilder.Entity<Ingredient>().HasIndex(i => i.Name).IsUnique();
+        // Friend
+        modelBuilder.Entity<Friend>().HasKey(f => f.Id);
 
         // Category
-        // modelBuilder.Entity<Category>().HasIndex(t => t.Name).IsUnique();
+        modelBuilder.Entity<Category>().HasKey(c => c.Id);
         modelBuilder.Entity<Category>().Property(t => t.Name).IsRequired();
+
+        // Meal
+        modelBuilder.Entity<Meal>().HasKey(m => m.Id);
 
         // Meal <--> Recipe via Cooking
         modelBuilder.Entity<Dish>().HasKey(x => new { x.MealId, x.RecipeId });
@@ -58,11 +61,5 @@ public class RemindMealDbContext : DbContext
             .HasOne<Category>(r => r.Category)
             .WithMany(c => c.Recipes)
             .IsRequired();
-
-        // Recipe <--> Ingredient
-        modelBuilder.Entity<Recipe>()
-            .HasMany<Ingredient>(r => r.Ingredients)
-            .WithMany(i => i.Recipes);
-
     }
 }

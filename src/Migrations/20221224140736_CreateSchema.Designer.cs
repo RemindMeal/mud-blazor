@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RemindMeal.Data;
+using RemindMealData;
 
 #nullable disable
 
 namespace RemindMeal.Migrations
 {
     [DbContext(typeof(RemindMealDbContext))]
-    [Migration("20221223195621_CreateSchema")]
+    [Migration("20221224140736_CreateSchema")]
     partial class CreateSchema
     {
         /// <inheritdoc />
@@ -20,26 +20,11 @@ namespace RemindMeal.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
-            modelBuilder.Entity("IngredientRecipe", b =>
+            modelBuilder.Entity("RemindMealData.Model.Category", b =>
                 {
-                    b.Property<int>("IngredientsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RecipesId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("IngredientsId", "RecipesId");
-
-                    b.HasIndex("RecipesId");
-
-                    b.ToTable("IngredientRecipe");
-                });
-
-            modelBuilder.Entity("RemindMeal.Model.Category", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -50,13 +35,13 @@ namespace RemindMeal.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Dish", b =>
+            modelBuilder.Entity("RemindMealData.Model.Dish", b =>
                 {
-                    b.Property<int>("MealId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("MealId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("RecipeId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("MealId", "RecipeId");
 
@@ -65,11 +50,11 @@ namespace RemindMeal.Migrations
                     b.ToTable("Dishes");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Friend", b =>
+            modelBuilder.Entity("RemindMealData.Model.Friend", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,31 +69,13 @@ namespace RemindMeal.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Ingredient", b =>
+            modelBuilder.Entity("RemindMealData.Model.Meal", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("RemindMeal.Model.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("Date")
-                        .IsRequired()
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -116,13 +83,13 @@ namespace RemindMeal.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Presence", b =>
+            modelBuilder.Entity("RemindMealData.Model.Presence", b =>
                 {
-                    b.Property<int>("MealId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("MealId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("FriendId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("FriendId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("MealId", "FriendId");
 
@@ -131,16 +98,17 @@ namespace RemindMeal.Migrations
                     b.ToTable("Presences");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Recipe", b =>
+            modelBuilder.Entity("RemindMealData.Model.Recipe", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -157,30 +125,15 @@ namespace RemindMeal.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("IngredientRecipe", b =>
+            modelBuilder.Entity("RemindMealData.Model.Dish", b =>
                 {
-                    b.HasOne("RemindMeal.Model.Ingredient", null)
-                        .WithMany()
-                        .HasForeignKey("IngredientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RemindMeal.Model.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RemindMeal.Model.Dish", b =>
-                {
-                    b.HasOne("RemindMeal.Model.Meal", "Meal")
+                    b.HasOne("RemindMealData.Model.Meal", "Meal")
                         .WithMany("Dishes")
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RemindMeal.Model.Recipe", "Recipe")
+                    b.HasOne("RemindMealData.Model.Recipe", "Recipe")
                         .WithMany("Dishes")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -191,15 +144,15 @@ namespace RemindMeal.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Presence", b =>
+            modelBuilder.Entity("RemindMealData.Model.Presence", b =>
                 {
-                    b.HasOne("RemindMeal.Model.Friend", "Friend")
+                    b.HasOne("RemindMealData.Model.Friend", "Friend")
                         .WithMany("Presences")
                         .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RemindMeal.Model.Meal", "Meal")
+                    b.HasOne("RemindMealData.Model.Meal", "Meal")
                         .WithMany("Presences")
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -210,9 +163,9 @@ namespace RemindMeal.Migrations
                     b.Navigation("Meal");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Recipe", b =>
+            modelBuilder.Entity("RemindMealData.Model.Recipe", b =>
                 {
-                    b.HasOne("RemindMeal.Model.Category", "Category")
+                    b.HasOne("RemindMealData.Model.Category", "Category")
                         .WithMany("Recipes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -221,24 +174,24 @@ namespace RemindMeal.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Category", b =>
+            modelBuilder.Entity("RemindMealData.Model.Category", b =>
                 {
                     b.Navigation("Recipes");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Friend", b =>
+            modelBuilder.Entity("RemindMealData.Model.Friend", b =>
                 {
                     b.Navigation("Presences");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Meal", b =>
+            modelBuilder.Entity("RemindMealData.Model.Meal", b =>
                 {
                     b.Navigation("Dishes");
 
                     b.Navigation("Presences");
                 });
 
-            modelBuilder.Entity("RemindMeal.Model.Recipe", b =>
+            modelBuilder.Entity("RemindMealData.Model.Recipe", b =>
                 {
                     b.Navigation("Dishes");
                 });

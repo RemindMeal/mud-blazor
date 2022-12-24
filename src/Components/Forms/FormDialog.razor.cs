@@ -14,9 +14,9 @@ namespace RemindMeal.Components.Forms
 
         private void Cancel() => MudDialog.Cancel();
 
-        protected EditContext editContext;
+        protected TModel model { get; set; }
 
-        protected TModel model;
+        protected EditContext editContext;
 
         protected abstract Task OnValidSubmit();
     }

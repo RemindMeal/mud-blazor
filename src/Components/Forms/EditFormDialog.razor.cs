@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
-using RemindMeal.Model;
-using RemindMeal.Services;
+using RemindMealData.Model;
+using RemindMealData.Services;
 
 namespace RemindMeal.Components.Forms;
 
 public sealed class EditFormDialog<TModel> : FormDialog<TModel> where TModel : IModel
 {
     [Parameter]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Inject]
     public IAsyncRepository<TModel> Repository { get; set; }

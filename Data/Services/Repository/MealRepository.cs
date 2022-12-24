@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class MealRepository : AsyncRepository<Meal, DateTime>
 {
@@ -19,7 +18,7 @@ public sealed class MealRepository : AsyncRepository<Meal, DateTime>
             .OrderBy(m => m.Date).ToListAsync();
     }
 
-    public override async Task<Meal> InsertAsync(Meal meal)
+    public override async Task<Meal?> InsertAsync(Meal meal)
     {
         _dbSet.Add(meal);
         Console.WriteLine($"Inserting {meal}");
@@ -35,7 +34,7 @@ public sealed class MealRepository : AsyncRepository<Meal, DateTime>
         return meal;
     }
 
-    public override async Task<Meal> UpdateAsync(int id, Meal newMeal)
+    public override async Task<Meal?> UpdateAsync(Guid id, Meal newMeal)
     {
         var meal = await _dbSet
             .Include(meal => meal.Dishes)
@@ -117,7 +116,7 @@ public sealed class MealRepository : AsyncRepository<Meal, DateTime>
 
     protected override DateTime OrderKeySelector(Meal meal) => (DateTime)meal.Date;
 
-    public override async Task<Meal> DeleteAsync(Meal meal)
+    public override async Task<Meal?> DeleteAsync(Meal meal)
     {
         return await DeleteAsync(meal.Id);
     }

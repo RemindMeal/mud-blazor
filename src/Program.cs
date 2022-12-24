@@ -1,8 +1,9 @@
-using RemindMeal.Data;
 using MudBlazor.Services;
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Services;
-using RemindMeal.Model;
+using RemindMealData;
+using RemindMealData.Model;
+using RemindMealData.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
-builder.Services.AddDbContextFactory<RemindMealDbContext>(opt =>
+builder.Services.AddDbContext<RemindMealDbContext>(opt =>
     {
-        opt.UseSqlite(builder.Configuration.GetConnectionString("db"));
+        opt.UseSqlite(builder.Configuration.GetConnectionString("db"), sqlOpt => sqlOpt.MigrationsAssembly("RemindMeal"));
         opt.EnableDetailedErrors();
     });
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
 namespace RemindMealTest;
 

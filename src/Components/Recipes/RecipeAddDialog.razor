@@ -1,7 +1,23 @@
-<AddFormDialog TModel=Recipe>
+@inject IAsyncRepository<Category> CategoryRepository;
+
+<AddFormDialog TModel=Recipe Model=recipe>
     <Fields Context=recipe>
         <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
         <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />
         <CategoryAutoComplete @bind-Category=recipe.Category />
     </Fields>
 </AddFormDialog>
+
+@code
+{
+    private Recipe recipe;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var category = await CategoryRepository.GetFirstAsync();
+        recipe = new Recipe
+        {
+            Category = category
+        };
+    }
+}

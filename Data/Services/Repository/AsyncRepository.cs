@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Data;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TModel> where TModel : class
 {
@@ -19,11 +18,16 @@ public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TMod
         return await Task.Run(() => _dbSet.OrderBy(OrderKeySelector).ToList());
     }
 
+    public virtual async Task<TModel> GetFirstAsync()
+    {
+        return await _dbSet.FirstAsync();
+    }
+
     protected abstract TOrderKey OrderKeySelector(TModel t);
 
-    public virtual async Task<TModel> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+    public virtual async Task<TModel?> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
 
-    public virtual async Task<TModel> InsertAsync(TModel model)
+    public virtual async Task<TModel?> InsertAsync(TModel model)
     {
         _dbSet.Add(model);
         Console.WriteLine($"Inserting {model}");
@@ -39,7 +43,7 @@ public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TMod
         return model;
     }
 
-    public async Task<TModel> DeleteAsync(int id)
+    public async Task<TModel?> DeleteAsync(Guid id)
     {
         var model = await _dbSet.FindAsync(id);
 
@@ -52,7 +56,7 @@ public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TMod
         return model;
     }
 
-    public abstract Task<TModel> DeleteAsync(TModel model);
+    public abstract Task<TModel?> DeleteAsync(TModel model);
 
-    public abstract Task<TModel> UpdateAsync(int id, TModel m);
+    public abstract Task<TModel?> UpdateAsync(Guid id, TModel m);
 }

@@ -2,47 +2,48 @@
 @inject IAsyncRepository<Recipe> Repository
 
 <MudAutocomplete
-            T=Recipe
+            T=RecipeView
             Label="Sélectionner une recette"
-            ToStringFunc="@(r => r.Name)"
-            @bind-Value=recipe
-            SearchFunc="Search"
+            ToStringFunc="@(v => v.Name)"
+            @bind-Value=view
+            SearchFunc=Search
             ResetValueOnEmptyText=true
             CoerceText=false
             CoerceValue=false />
 
 @code
 {
-    private Recipe recipe { 
-        get => Recipe;
+    private RecipeView view { 
+        get => View;
         set
         {
-            Recipe = value;
-            Task.Run(async () => await RecipeChanged.InvokeAsync(value));
+            View = value;
+            Task.Run(async () => await ViewChanged.InvokeAsync(value));
         }
     }
 
     [Parameter]
-    public Recipe Recipe { get; set; }
+    public RecipeView View { get; set; }
 
     [Parameter]
-    public EventCallback<Recipe> RecipeChanged { get; set; }
+    public EventCallback<RecipeView> ViewChanged { get; set; }
 
-    private List<Recipe> recipes;
+    private List<RecipeView> views;
 
     protected async override Task OnInitializedAsync()
     {
-        recipes = await Repository.GetListAsync();
+        var recipes = await Repository.GetListAsync();
+        views = recipes.Select(r => new RecipeView { Name = r.Name }).ToList();
         await base.OnInitializedAsync();
     }
     
-    private Task<IEnumerable<Recipe>> Search(string value)
+    private Task<IEnumerable<RecipeView>> Search(string value)
     {
         // if text is null or empty, show complete list
         return Task.FromResult(
             string.IsNullOrEmpty(value)
-                ? recipes
-                : recipes.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
+                ? views
+                : views.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
             );
     }
 }

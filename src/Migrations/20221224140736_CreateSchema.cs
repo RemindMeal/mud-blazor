@@ -15,8 +15,7 @@ namespace RemindMeal.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -28,8 +27,7 @@ namespace RemindMeal.Migrations
                 name: "Friends",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Surname = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -39,24 +37,10 @@ namespace RemindMeal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ingredients",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ingredients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Meals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -68,11 +52,10 @@ namespace RemindMeal.Migrations
                 name: "Recipes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,8 +72,8 @@ namespace RemindMeal.Migrations
                 name: "Presences",
                 columns: table => new
                 {
-                    FriendId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MealId = table.Column<int>(type: "INTEGER", nullable: false)
+                    FriendId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    MealId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,8 +96,8 @@ namespace RemindMeal.Migrations
                 name: "Dishes",
                 columns: table => new
                 {
-                    MealId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    MealId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    RecipeId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,45 +116,10 @@ namespace RemindMeal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "IngredientRecipe",
-                columns: table => new
-                {
-                    IngredientsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RecipesId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IngredientRecipe", x => new { x.IngredientsId, x.RecipesId });
-                    table.ForeignKey(
-                        name: "FK_IngredientRecipe_Ingredients_IngredientsId",
-                        column: x => x.IngredientsId,
-                        principalTable: "Ingredients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_IngredientRecipe_Recipes_RecipesId",
-                        column: x => x.RecipesId,
-                        principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Dishes_RecipeId",
                 table: "Dishes",
                 column: "RecipeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IngredientRecipe_RecipesId",
-                table: "IngredientRecipe",
-                column: "RecipesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ingredients_Name",
-                table: "Ingredients",
-                column: "Name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Presences_FriendId",
@@ -197,13 +145,7 @@ namespace RemindMeal.Migrations
                 name: "Dishes");
 
             migrationBuilder.DropTable(
-                name: "IngredientRecipe");
-
-            migrationBuilder.DropTable(
                 name: "Presences");
-
-            migrationBuilder.DropTable(
-                name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

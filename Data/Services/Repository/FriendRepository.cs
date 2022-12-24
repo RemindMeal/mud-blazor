@@ -1,14 +1,13 @@
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class FriendRepository : AsyncRepository<Friend, (string, string)>
 {
     public FriendRepository(RemindMealDbContext context) : base(context, context.Friends)
     { }
 
-    public async override Task<Friend> UpdateAsync(int id, Friend newFriend)
+    public async override Task<Friend?> UpdateAsync(Guid id, Friend newFriend)
     {
         var friend = await _dbSet.FindAsync(id);
         if (friend == null)
@@ -23,7 +22,7 @@ public sealed class FriendRepository : AsyncRepository<Friend, (string, string)>
         return friend;
     }
 
-    public override async Task<Friend> DeleteAsync(Friend model)
+    public override async Task<Friend?> DeleteAsync(Friend model)
     {
         return await DeleteAsync(model.Id);
     }

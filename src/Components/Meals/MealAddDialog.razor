@@ -1,7 +1,6 @@
-@inject IAsyncRepository<Recipe> RecipeRepository
-@inject IAsyncRepository<Meal> MealRepository
+@inject RemindMealDbContext Context;
 
-<AddFormDialog TModel=MealView OnValidated=OnValidated>
+<AddFormDialog TModel=MealView OnValidated=OnValidated Model=mealView>
     <Fields Context=meal>
         <MudDatePicker Label="Date" @bind-Date="meal.Date" />
         @for (var i = 0; i < selectedRecipes.Count; ++i)
@@ -15,27 +14,46 @@
 
 @code
 {
-    private List<Recipe> selectedRecipes = new List<Recipe>() { new Recipe() };
-    private List<Recipe> allRecipes;
+    private List<RecipeView> selectedRecipes;
+    private List<RecipeView> allRecipes;
+
+    private MealView mealView = new MealView { Date = DateTime.Today };
 
     protected async override Task OnInitializedAsync()
     {
-        allRecipes = await RecipeRepository.GetListAsync();
+        allRecipes = await Context.Recipes.Select(r => new RecipeView{ Name = r.Name }).ToListAsync();
+        selectedRecipes = new List<RecipeView>();
         await base.OnInitializedAsync();
     }
 
     private async Task OnValidated(MealView mealView)
     {
         var meal = new Meal() { Date = (DateTime) mealView.Date };
-        foreach (var dish in mealView.Dishes)
-            meal.Dishes.Add(dish);
-        foreach (var presence in mealView.Presences)
-            meal.Presences.Add(presence);
-        var insertedMeal = await MealRepository.InsertAsync(meal);
+        foreach (var recipeView in mealView.Recipes)
+        {
+            var recipe = await Context.Recipes.SingleOrDefaultAsync(r => r.Name == recipeView.Name);
+            if (recipe != null)
+                meal.Dishes.Add(new Dish {
+                    Meal = meal,
+                    Recipe = recipe
+                });
+        }
+        foreach (var guest in mealView.Guests)
+        {
+            var friend = await Context.Friends.SingleOrDefaultAsync(f => f.Name == guest.Name && f.Surname == guest.Surname);
+            if (friend != null)
+                meal.Presences.Add(new Presence
+                {
+                    Meal = meal,
+                    Friend = friend
+                });
+        }
+        await Context.Meals.AddAsync(meal);
+        await Context.SaveChangesAsync();        
     }
 
     private void Add()
     {
-        selectedRecipes.Add(new Recipe());
+        selectedRecipes.Add(new RecipeView());
     }
 }

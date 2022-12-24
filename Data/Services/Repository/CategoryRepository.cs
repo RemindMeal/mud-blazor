@@ -1,14 +1,13 @@
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class CategoryRepository : AsyncRepository<Category, string>
 {
     public CategoryRepository(RemindMealDbContext context) : base(context, context.Categories)
     { }
 
-    public async override Task<Category> UpdateAsync(int id, Category newType)
+    public async override Task<Category?> UpdateAsync(Guid id, Category newType)
     {
         var type = await _dbSet.FindAsync(id);
         if (type == null)
@@ -23,7 +22,7 @@ public sealed class CategoryRepository : AsyncRepository<Category, string>
         return type;
     }
 
-    public override async Task<Category> DeleteAsync(Category model)
+    public override async Task<Category?> DeleteAsync(Category model)
     {
         return await DeleteAsync(model.Id);
     }
