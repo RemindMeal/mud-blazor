@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using RemindMeal.Model;
 using RemindMeal.Services;
 
-namespace RemindMeal.Components;
+namespace RemindMeal.Components.Dialog;
 
 public abstract class AddDialog<TModel> : ComponentBase where TModel : IModel
 {

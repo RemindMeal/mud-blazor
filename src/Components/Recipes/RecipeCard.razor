@@ -1,17 +1,18 @@
-<Card Model=recipe Refresh=Refresh>
-    
-    <Header>
-        <MudText Typo="Typo.h6">@recipe.Name</MudText>
-    </Header>
-    <Button>
-        <EditButton TEditDialog=RecipeEditDialog TModel=Recipe Model=recipe Title="Modification d'une recette" OnSuccess=Refresh />
-    </Button> 
-    <Content>
+<MudCard Width="500" Height="600">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">@recipe.Name</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
         <MudText>@recipe.Description</MudText>
         <MudText Typo="Typo.body2">@recipe.Category.Name</MudText>
-    </Content>
-
-</Card>
+    </MudCardContent>
+    <MudCardActions>
+        <EditButton TEditDialog=RecipeEditDialog TModel=Recipe Model=recipe Title="Modification d'une recette" OnSuccess=Refresh />
+        <DeleteButton Model=recipe Refresh=Refresh />
+    </MudCardActions>
+</MudCard>
 
 @code {
     [Parameter]

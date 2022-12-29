@@ -6,9 +6,6 @@ namespace RemindMeal.Components.Forms
 {
     public abstract partial class FormDialog<TModel> : RemindMealComponent
     {
-        [CascadingParameter]
-        public MudDialogInstance MudDialog { get; set; }
-
         [Parameter]
         public RenderFragment<TModel> Fields { get; set; }
 

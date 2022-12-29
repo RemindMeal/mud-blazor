@@ -31,4 +31,6 @@ public sealed class Friend : IModel
         return FullName;
     }
 
+    public string Initiales => string.Concat(Name[0], Surname[0]);
+
 }
