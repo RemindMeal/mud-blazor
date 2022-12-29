@@ -1,4 +1,6 @@
-<AddFormDialog TModel=Friend>
+@inherits AddDialog<Friend>
+
+<AddFormDialog TModel=Friend OnValidated=OnAdd>
     <Fields Context=friend>
         <MudTextField Label="Name" @bind-Value=friend.Name For="@(() => friend.Name)" />
         <MudTextField Label="Surname" @bind-Value=friend.Surname For="@(() => friend.Surname)" />

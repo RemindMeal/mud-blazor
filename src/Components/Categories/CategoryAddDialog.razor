@@ -1,4 +1,6 @@
-<AddFormDialog TModel=Category>
+@inherits AddDialog<Category>
+
+<AddFormDialog TModel=Category OnValidated=OnAdd>
     <Fields Context=category>
         <MudTextField Label="Name" @bind-Value=category.Name For="@(() => category.Name)" />
     </Fields>

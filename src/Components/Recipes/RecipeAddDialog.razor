@@ -1,4 +1,6 @@
-<AddFormDialog TModel=Recipe>
+@inherits AddDialog<Recipe>
+
+<AddFormDialog TModel=Recipe OnValidated=OnAdd>
     <Fields Context=recipe>
         <MudTextField Label="Name" @bind-Value=recipe.Name For="@(() => recipe.Name)" />
         <MudTextField Label="Description" @bind-Value=recipe.Description For="@(() => recipe.Description)" />

@@ -4,7 +4,6 @@
         {
             "label": "build",
             "command": "dotnet",
-            "type": "process",
             "args": [
                 "build",
                 "${workspaceFolder}/src/RemindMeal.csproj",
@@ -14,9 +13,22 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "test",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
             "label": "watch",
             "command": "dotnet",
-            "type": "process",
             "args": [
                 "watch",
                 "run",
@@ -27,7 +39,6 @@
             "presentation": {
                 "reveal": "silent"
             }
-
-        }
+        },
     ]
 }
