@@ -1,3 +1,74 @@
 @page "/meals/add"
+@inherits RemindMealComponent
 
-<MealAddDialog />
+@inject IAsyncRepository<Meal> MealRepository
+
+@using MudBlazor.Utilities
+
+<div class="d-flex flex-column mud-width-full mud-height-full">
+	<MudGrid>
+		<MudItem xs="4">
+			<RecipeAutocompleteForMeal @ref=recipeAutoComplete ValueChanged=OnSelectedRecipe ExceptedRecipeNames=@(selectedRecipes.Select(r => r.Name).ToList())/>
+		</MudItem>
+	</MudGrid>
+
+	<MudDropContainer @ref=dropContainer T=RecipeDropItem Items=selectedRecipes ItemsSelector="@((item,dropzone) => true)" ItemDropped=ItemUpdated Class="d-flex flex-wrap flex-grow-1">
+		<ChildContent>
+            <MudPaper Class="xs-4 flex-grow-1">
+                <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                    <MudListSubheader>Menu</MudListSubheader>
+                    <MudDropZone T=RecipeDropItem Identifier="1" Class="flex-grow-1" AllowReorder="true" />
+                </MudList>
+            </MudPaper>
+		</ChildContent>
+		<ItemRenderer Context=recipe>
+			<MudListItem Text="@recipe.Display()" />
+		</ItemRenderer>
+	</MudDropContainer>
+</div>
+
+<h4>Drop zone items</h4>
+<MudList>
+	@foreach (var recipe in selectedRecipes)
+	{
+		<MudListItem>@recipe.ToString()</MudListItem>
+	}
+</MudList>
+
+@code {
+	private MudDropContainer<RecipeDropItem> dropContainer;
+	private RecipeAutocompleteForMeal recipeAutoComplete;
+	private HashSet<RecipeDropItem> selectedRecipes = new();
+
+	private async Task OnSelectedRecipe(Recipe selectedRecipe)
+	{
+		selectedRecipes.Add(new RecipeDropItem {
+			Name = selectedRecipe.Name,
+			Order = selectedRecipes.Count()
+		});
+		await recipeAutoComplete.Reset();
+		dropContainer.Refresh();
+	}
+
+	private void ItemUpdated(MudItemDropInfo<RecipeDropItem> dropItem)
+	{
+		selectedRecipes.UpdateOrder(dropItem, item => item.Order);
+	}
+
+	private void RefreshContainer()
+	{
+		//update the binding to the container
+		StateHasChanged();
+
+		//the container refreshes the internal state
+		dropContainer.Refresh();
+	}
+
+	public record RecipeDropItem
+	{
+		public string Name { get; init; }
+		public int Order { get; set; }
+		public override string ToString() => $"RecipeDropItem(Recipe = {Name}, Order = {Order})";
+		public string Display() => $"{Name} ({Order})";
+	}
+}
