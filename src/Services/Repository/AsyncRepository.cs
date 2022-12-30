@@ -19,6 +19,11 @@ public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TMod
         return await Task.Run(() => _dbSet.OrderBy(OrderKeySelector).ToList());
     }
 
+    public virtual IQueryable<TModel> GetQueryable()
+    {
+        return _dbSet.AsQueryable().OrderBy(OrderKeySelector).AsQueryable();
+    }
+
     protected abstract TOrderKey OrderKeySelector(TModel t);
 
     public virtual async Task<TModel> GetByIdAsync(int id) => await _dbSet.FindAsync(id);

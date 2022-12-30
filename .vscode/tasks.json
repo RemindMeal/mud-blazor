@@ -35,10 +35,13 @@
                 "--project",
                 "${workspaceFolder}/src/RemindMeal.csproj"
             ],
-            "problemMatcher": "$msCompile",
-            "presentation": {
-                "reveal": "silent"
-            }
+            "problemMatcher":{
+                "base": "$msCompile",
+                "background": {
+                    "beginsPattern": "^dotnet watch.*Building...^",
+                    "endsPattern": "^\tContent root path"
+                }
+            },
         },
     ]
 }
