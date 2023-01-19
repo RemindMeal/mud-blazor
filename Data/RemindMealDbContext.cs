@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Data;
+namespace RemindMealData;
 
-public class RemindMealDbContext : DbContext
+internal class RemindMealDbContext : DbContext
 {
     public RemindMealDbContext(DbContextOptions<RemindMealDbContext> options) : base(options)
     { }

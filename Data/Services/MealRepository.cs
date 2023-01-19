@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class MealRepository : AsyncRepository<Meal, DateTime>
 {

@@ -1,6 +1,6 @@
-namespace RemindMeal.Model;
+namespace RemindMealData.Model;
 
-public sealed class Presence
+internal sealed class Presence
 {
     public int FriendId { get; set; }
     public int MealId { get; set; }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RemindMeal.Model;
+namespace RemindMealData.Model;
 
-public sealed class Category : IModel
+internal sealed class Category : IModel
 {
     public int Id { get; set; }
 

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Data;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public abstract class AsyncRepository<TModel, TOrderKey> : IAsyncRepository<TModel> where TModel : class
 {

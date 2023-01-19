@@ -1,7 +1,6 @@
-using RemindMeal.Data;
-using RemindMeal.Model;
+using RemindMealData.Model;
 
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public sealed class CategoryRepository : AsyncRepository<Category, string>
 {

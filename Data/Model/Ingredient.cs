@@ -1,6 +1,6 @@
-namespace RemindMeal.Model;
+namespace RemindMealData.Model;
 
-public sealed class Ingredient : IModel
+internal sealed class Ingredient : IModel
 {
     public int Id { get; set; }
 

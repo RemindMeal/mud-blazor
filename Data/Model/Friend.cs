@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RemindMeal.Model;
+namespace RemindMealData.Model;
 
-public sealed class Friend : IModel
+internal sealed class Friend : IModel
 {
     public Friend()
     {

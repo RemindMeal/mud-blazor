@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using RemindMeal.Model;
 
 namespace RemindMeal.ModelView;
 

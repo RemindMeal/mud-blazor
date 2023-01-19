@@ -1,4 +1,4 @@
-namespace RemindMeal.Services;
+namespace RemindMealData.Services;
 
 public interface IAsyncRepository<TModel>
 {

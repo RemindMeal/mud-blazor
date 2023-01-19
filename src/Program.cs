@@ -1,8 +1,7 @@
-using RemindMeal.Data;
 using MudBlazor.Services;
 using Microsoft.EntityFrameworkCore;
-using RemindMeal.Services;
-using RemindMeal.Model;
+using RemindMealData.Services;
+using RemindMealData.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
